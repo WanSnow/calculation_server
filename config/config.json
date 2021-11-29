@@ -1,3 +1,17 @@
 {
-  "mysql_password": "wentiertong960"
+  "Mysql": {
+    "Username": "root",
+    "Password": "123456",
+    "Host": "127.0.0.1:3306",
+    "DBName": "Platform_",
+    "TablePrefix": "Platform_",
+    "Charset": "utf8",
+    "ParseTime": true,
+    "MaxIdleConns": 10,
+    "MaxOpenConns": 30
+  },
+  "Server": {
+    "RunMode": "debug",
+    "HeartBeatServerPort": 9696
+  }
 }
