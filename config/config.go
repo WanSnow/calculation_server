@@ -29,6 +29,7 @@ func setupConfig() error {
 	if err != nil {
 		return err
 	}
+	err = config.ReadSection("nsq", &NsqC)
 
 	return nil
 }

@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+option go_package="github.com/wansnow/calculation_server/model/player_info";
+
+package CompetitionPlatform.proto.model;
+
+message PlayerInfo {
+    string id = 1;
+    string main_logic_func = 2;
+    string attacked_func = 3;
+    string crash_func = 4;
+    string discover_func = 5;
+}
