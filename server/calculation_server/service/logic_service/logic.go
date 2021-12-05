@@ -12,7 +12,7 @@ import (
 
 func StartLogic(id, mainLogicFunc string) error {
 	cmdChan := make(chan []byte)
-	middleware_nsq.StartNewProducer(fmt.Sprintf("topic_%s", id), cmdChan)
+	go middleware_nsq.StartNewProducer(fmt.Sprintf("topic_%s", id), cmdChan)
 	for {
 		commands, err := execOnceMainLogic(mainLogicFunc)
 		if err != nil {

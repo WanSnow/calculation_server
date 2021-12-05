@@ -16,7 +16,7 @@ func StartNewConsumer(topic, channel string, handler nsq.Handler) {
 	consumer.AddHandler(handler)
 	// nsqlookupd
 	//[]string
-	if err := consumer.ConnectToNSQLookupd(config.NsqC.NsqLookupdUrl); err != nil {
+	if err := consumer.ConnectToNSQD(config.NsqC.NsqdUrl); err != nil {
 		log.Fatal(err)
 	}
 	<-consumer.StopChan

@@ -24,8 +24,8 @@ type ServerConfig struct {
 }
 
 type NsqConfig struct {
-	NsqdUrl       string `json:"nsqd_url"`
-	NsqLookupdUrl string `json:"nsq_lookupd_url"`
+	NsqdUrl       string
+	NsqLookupdUrl string
 }
 
 func (c *Config) ReadSection(k string, v interface{}) error {

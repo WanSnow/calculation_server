@@ -1,5 +1,7 @@
 package func_msg
 
+import "fmt"
+
 const (
 	MOVE = byte(1) << iota
 	SHOT
@@ -11,6 +13,10 @@ type Msg struct {
 	FuncType byte
 	Param    byte
 	Id       string
+}
+
+func (m Msg) String() string {
+	return fmt.Sprintf("func: %d, param: %d, id: %s", m.FuncType, m.Param, m.Id)
 }
 
 func Encode(msg Msg) (mb []byte) {
