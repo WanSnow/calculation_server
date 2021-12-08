@@ -1,16 +1,24 @@
 package calculation_service
 
 import (
-	"fmt"
 	"github.com/nsqio/go-nsq"
-	middleware_nsq "github.com/wansnow/calculation_server/middleware/nsq"
 	"github.com/wansnow/calculation_server/server/calculation_server/model/func_msg"
 	"log"
 )
 
-func StartGameCalculation(id string) {
-	middleware_nsq.StartNewConsumer(fmt.Sprintf("topic_%s", id), "main", nsq.HandlerFunc(func(message *nsq.Message) error {
-		log.Println(func_msg.Decode(message.Body))
+type CalculationMessageHandler struct{}
+
+// HandleMessage implements the Handler interface.
+func (h *CalculationMessageHandler) HandleMessage(m *nsq.Message) error {
+	if len(m.Body) == 0 {
+		// Returning nil will automatically send a FIN command to NSQ to mark the message as processed.
+		// In this case, a message with an empty body is simply ignored/discarded.
 		return nil
-	}))
+	}
+
+	// do whatever actual message processing is desired
+	log.Println(func_msg.Decode(m.Body))
+
+	// Returning a non-nil error will automatically send a REQ command to NSQ to re-queue the message.
+	return nil
 }
