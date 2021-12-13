@@ -3,7 +3,9 @@ module github.com/wansnow/calculation_server
 go 1.15
 
 require (
-	github.com/golang/protobuf v1.5.2
+	github.com/go-redis/redis v6.15.9+incompatible
+	github.com/go-redis/redis/v8 v8.10.0
+	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
 	github.com/google/go-cmp v0.5.6 // indirect
 	github.com/nsqio/go-nsq v1.1.0

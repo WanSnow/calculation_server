@@ -18,10 +18,11 @@ func setupConfig(config *Config) error {
 	if err != nil {
 		return err
 	}
-	err = config.ReadSection("nsq", &NsqC)
+	err = config.ReadSection("Nsq", &NsqC)
 	if err != nil {
 		return err
 	}
+	err = config.ReadSection("Redis", &RedisC)
 
 	return nil
 }

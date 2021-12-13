@@ -4,6 +4,7 @@ var (
 	MysqlC  *MysqlConfig
 	ServerC *ServerConfig
 	NsqC    *NsqConfig
+	RedisC  *RedisConfig
 )
 
 type MysqlConfig struct {
@@ -26,6 +27,17 @@ type ServerConfig struct {
 type NsqConfig struct {
 	NsqdUrl       string
 	NsqLookupdUrl string
+}
+
+type RedisConfig struct {
+	Addr         string
+	PoolSize     int
+	MinIdleConns int
+	DialTimeout  int
+	ReadTimeout  int
+	WriteTimeout int
+	PoolTimeout  int
+	IdleTimeout  int
 }
 
 func (c *Config) ReadSection(k string, v interface{}) error {

@@ -3,7 +3,6 @@ package calculation_service
 import (
 	"github.com/nsqio/go-nsq"
 	"github.com/wansnow/calculation_server/server/calculation_server/model/func_msg"
-	"log"
 )
 
 type CalculationMessageHandler struct{}
@@ -17,7 +16,7 @@ func (h *CalculationMessageHandler) HandleMessage(m *nsq.Message) error {
 	}
 
 	// do whatever actual message processing is desired
-	log.Println(func_msg.Decode(m.Body))
+	_ = func_msg.Decode(m.Body)
 
 	// Returning a non-nil error will automatically send a REQ command to NSQ to re-queue the message.
 	return nil

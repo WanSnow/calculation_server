@@ -4,6 +4,8 @@ option go_package="github.com/wansnow/calculation_server/service/heart_beat";
 
 package CompetitionPlatform.proto.api;
 
+import "proto/model/Mission.proto";
+
 service HeartBeat {
     rpc HeartBeat(HeartBeatMes.Req) returns (HeartBeatMes.Response){}
 }
@@ -12,8 +14,10 @@ message HeartBeatMes {
     message Req {
         string ip = 1;
         int64 port = 2;
+        repeated string mission_ids = 3;
     }
     message Response {
         string status = 1;
+        repeated model.Mission missions = 2;
     }
 }

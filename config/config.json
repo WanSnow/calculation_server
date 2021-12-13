@@ -14,7 +14,17 @@
     "RunMode": "debug",
     "HeartBeatServerPort": 9696
   },
-  "nsq": {
+  "Nsq": {
     "NsqdUrl": "127.0.0.1:4150"
+  },
+  "Redis": {
+    "Addr": "127.0.0.1:6379",
+    "PoolSize": 15,
+    "MinIdleConns": 10,
+    "DialTimeout": 5,
+    "ReadTimeout": 3,
+    "WriteTimeout": 3,
+    "PoolTimeout": 5,
+    "IdleTimeout": 5
   }
 }

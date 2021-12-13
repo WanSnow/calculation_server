@@ -13,12 +13,16 @@ enum WinnerCondition {
 enum PointType {
     POINT_TYPE_INVALID = 0;
     POINT_TYPE_BLOCK = 1;
-    POINT_TYPE_TARGET_POSITION = 2;
+    POINT_TYPE_POSITION = 2;
+    POINT_TYPE_TARGET = 3;
+    POINT_TYPE_ENEMY = 4;
 }
 
 message Mission {
-    WinnerCondition condition = 1;
-    repeated Point points = 2;
+    string id = 1;
+    int64 version = 2;
+    WinnerCondition condition = 11;
+    repeated Point points = 12;
 }
 
 message Point {
