@@ -14,7 +14,7 @@ import (
 func StartGame(gameId, playerId string) {
 	cmdChan := make(chan []byte)
 	triggerChan := make(chan logic_service.Trigger)
-	TriggerMap[playerId] = triggerChan
+	TriggerChanMap[playerId] = triggerChan
 	go middleware_nsq.StartNewProducer(fmt.Sprintf("topic_%s", gameId), cmdChan)
 	go middleware_nsq.StartNewConsumer(fmt.Sprintf("topic_%s", gameId), "main", &calculation_service.CalculationMessageHandler{})
 
