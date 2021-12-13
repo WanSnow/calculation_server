@@ -8,6 +8,7 @@ import (
 	"github.com/wansnow/calculation_server/server/calculation_server/service/calculation_service"
 	"github.com/wansnow/calculation_server/server/calculation_server/service/logic_service"
 	"log"
+	"time"
 )
 
 func StartGame(gameId, playerId string) {
@@ -43,5 +44,6 @@ loop:
 			}
 			cmdChan <- func_msg.Encode(command)
 		}
+		time.Sleep(time.Duration(len(commands) * 100 * int(time.Millisecond)))
 	}
 }
