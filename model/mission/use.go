@@ -16,7 +16,10 @@ type Use struct {
 func (u *Use) GetMission(missionId string) (*Mission, error) {
 	mission := new(Mission)
 	mission.Id = missionId
-	missionMap := u.redisClient.HGetAll(missionId).Val()
+	missionMap, err := u.redisClient.HGetAll(missionId).Result()
+	if err != nil {
+		return nil, err
+	}
 	for k := range missionMap {
 		vals := strings.Split(k, "_")
 		switch vals[0] {
@@ -79,7 +82,18 @@ func (u *Use) SetMission(mission *Mission) error {
 		if err != nil {
 			return err
 		}
-		u.redisClient.HSet(mission.Id, fmt.Sprintf("%s_%d", prefix, EncodePointToUint64(v)), struct{}{})
+		_, err = u.redisClient.HSet(mission.Id, fmt.Sprintf("%s_%d", prefix, EncodePointToUint64(v)), struct{}{}).Result()
+		if err != nil {
+			return err
+		}
 	}
 	return nil
+}
+
+func (u *Use) GetVersion(missionId string) string {
+	return u.redisClient.HGet(missionId, "version").Val()
+}
+
+func (u *Use) CanMove(missionId string, point *Point) bool {
+	return !u.redisClient.HExists(missionId, fmt.Sprintf("block_%d", EncodePointToUint64(point))).Val()
 }

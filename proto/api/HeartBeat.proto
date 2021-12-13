@@ -18,6 +18,7 @@ message HeartBeatMes {
     }
     message Response {
         string status = 1;
-        repeated model.Mission missions = 2;
+        map<string, int64> missionVersions = 2;
+        repeated model.Mission missions = 3;
     }
 }

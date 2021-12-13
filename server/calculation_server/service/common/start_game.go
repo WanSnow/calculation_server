@@ -8,12 +8,13 @@ import (
 	"github.com/wansnow/calculation_server/server/calculation_server/service/calculation_service"
 	"github.com/wansnow/calculation_server/server/calculation_server/service/logic_service"
 	"log"
+	"time"
 )
 
 func StartGame(gameId, playerId string) {
 	cmdChan := make(chan []byte)
 	triggerChan := make(chan logic_service.Trigger)
-	TriggerMap[playerId] = triggerChan
+	TriggerChanMap[playerId] = triggerChan
 	go middleware_nsq.StartNewProducer(fmt.Sprintf("topic_%s", gameId), cmdChan)
 	go middleware_nsq.StartNewConsumer(fmt.Sprintf("topic_%s", gameId), "main", &calculation_service.CalculationMessageHandler{})
 
@@ -43,5 +44,6 @@ loop:
 			}
 			cmdChan <- func_msg.Encode(command)
 		}
+		time.Sleep(time.Duration(len(commands) * 100 * int(time.Millisecond)))
 	}
 }
