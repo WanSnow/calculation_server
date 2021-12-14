@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/wansnow/calculation_server/config"
-	"github.com/wansnow/calculation_server/middleware/redis"
+	"github.com/wansnow/calculation_server/middleware/redis_client"
 	"github.com/wansnow/calculation_server/server/calculation_server"
 	"os"
 	"time"
@@ -20,7 +20,7 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	redis.InitRedisClient()
+	redis_client.InitRedisClient()
 
 	cs := calculation_server.NewCalculationServer()
 	go cs.Start()

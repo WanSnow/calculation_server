@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/go-redis/redis"
+	"github.com/wansnow/calculation_server/middleware/redis_client"
 	"log"
 	"strconv"
 	"strings"
@@ -11,6 +12,12 @@ import (
 
 type Use struct {
 	redisClient *redis.Client
+}
+
+func NewUse() *Use {
+	return &Use{
+		redisClient: redis_client.RedisClient,
+	}
 }
 
 func (u *Use) GetMission(missionId string) (*Mission, error) {
