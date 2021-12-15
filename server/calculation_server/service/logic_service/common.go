@@ -18,10 +18,12 @@ def turn(id, param):
 def turn_weapon(id, param):
 	print("logic", 8, param, id)
 
+%s_sight
+
 %s`
 
-func RunFunc(playerFunc string) ([]func_msg.Msg, error) {
-	pyLogic := exec.Command("python3", "-c", fmt.Sprintf(PyCmd, playerFunc))
+func RunFunc(playerFunc, gameId string) ([]func_msg.Msg, error) {
+	pyLogic := exec.Command("python3", "-c", fmt.Sprintf(PyCmd, gameId, playerFunc))
 	output, err := pyLogic.Output()
 	if err != nil {
 		return nil, err
