@@ -33,7 +33,7 @@ loop:
 			}
 		default:
 			var err error
-			commands, err = logic_service.ExecOnceMainLogic(MainLogicMap[playerId], gameId)
+			commands, err = logic_service.ExecOnceMainLogic(MainLogicMap[playerId], "")
 			if err != nil {
 				log.Fatalln(err)
 			}

@@ -14,30 +14,28 @@ type Trigger interface {
 }
 
 type Attacked struct {
-	GameId       string
 	AttackedFunc string
 }
 
 func (a *Attacked) Call() ([]func_msg.Msg, error) {
-	return RunFunc(a.AttackedFunc, a.GameId)
+	return RunFunc(a.AttackedFunc, "")
 }
 
 type Crash struct {
-	GameId    string
 	CrashFunc string
 }
 
 func (c *Crash) Call() ([]func_msg.Msg, error) {
-	return RunFunc(c.CrashFunc, c.GameId)
+	return RunFunc(c.CrashFunc, "")
 }
 
 type Discover struct {
-	GameId       string
+	Sight        string
 	DiscoverFunc string
 }
 
 func (d *Discover) Call() ([]func_msg.Msg, error) {
-	return RunFunc(d.DiscoverFunc, d.GameId)
+	return RunFunc(d.DiscoverFunc, d.Sight)
 }
 
 type End struct {
