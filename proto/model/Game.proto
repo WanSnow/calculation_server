@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option go_package="github.com/wansnow/calculation_server/model/game";
+
+package CompetitionPlatform.proto.model;
+
+import "proto/model/Mission.proto";
+
+enum Direction {
+  DIRECTION_INVALID = 0;
+  DIRECTION_UP = 1;
+  DIRECTION_RIGHT = 2;
+  DIRECTION_DOWN = 3;
+  DIRECTION_LEFT = 4;
+}
+
+message Game {
+  string game_id = 1;
+  string mission_id = 11;
+  repeated Point points = 2;
+  WinnerCondition condition = 3;
+  Point player_point = 21;
+  Direction player_direction = 22;
+  Direction weapon_direction = 23;
+}

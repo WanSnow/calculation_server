@@ -11,7 +11,9 @@
   },
   "Server": {
     "RunMode": "debug",
-    "HeartBeatServerPort": 9696
+    "HeartBeatServerPort": 9696,
+    "StartGameServerPort": 9700,
+    "AcceptServerPort": 9701
   },
   "Nsq": {
     "NsqdUrl": "127.0.0.1:4150"
