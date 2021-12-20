@@ -20,6 +20,7 @@ func NewUse() *Use {
 }
 
 func (u *Use) SetPlayer(playerInfo *PlayerInfo) {
+	common.MainLogicMap[playerInfo.Id] = playerInfo.MainLogicFunc
 	common.TriggerMap[fmt.Sprintf("%s_%d", playerInfo.Id, trigger_msg.ATTACKED)] = &logic_service.Attacked{
 		AttackedFunc: playerInfo.AttackedFunc,
 	}

@@ -34,8 +34,8 @@ func Move(id string, param byte) {
 		nextPlayerPoint(playerPoint, mu, condition, param, id, missionId, func() *mission.Point {
 			return &mission.Point{
 				Type: mission.PointType_POINT_TYPE_BLOCK,
-				X:    playerPoint.X,
-				Y:    playerPoint.Y + 1,
+				X:    playerPoint.X + 1,
+				Y:    playerPoint.Y,
 			}
 		})
 	case game.Direction_DIRECTION_DOWN:
@@ -43,15 +43,15 @@ func Move(id string, param byte) {
 			return &mission.Point{
 				Type: mission.PointType_POINT_TYPE_BLOCK,
 				X:    playerPoint.X,
-				Y:    playerPoint.Y + 1,
+				Y:    playerPoint.Y - 1,
 			}
 		})
 	case game.Direction_DIRECTION_LEFT:
 		nextPlayerPoint(playerPoint, mu, condition, param, id, missionId, func() *mission.Point {
 			return &mission.Point{
 				Type: mission.PointType_POINT_TYPE_BLOCK,
-				X:    playerPoint.X,
-				Y:    playerPoint.Y + 1,
+				X:    playerPoint.X - 1,
+				Y:    playerPoint.Y,
 			}
 		})
 	}

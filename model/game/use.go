@@ -48,21 +48,21 @@ func (u *Use) GetGame(gameId string) (*Game, error) {
 			game.Condition = mission.WinnerCondition(intC)
 		case "mission":
 			game.MissionId = gameMap[k]
-		case "player_point":
+		case "player-point":
 			temp, err := strconv.ParseUint(gameMap[k], 0, 0)
 			if err != nil {
 				log.Println(fmt.Sprintf("Game: %s has invalid field: %s", gameId, k))
 				return nil, err
 			}
 			game.PlayerPoint = mission.DecodeUint64ToPoint(temp)
-		case "player_direction":
+		case "player-direction":
 			direction := gameMap[k]
 			intD, err := strconv.Atoi(direction)
 			if err != nil {
 				return nil, err
 			}
 			game.PlayerDirection = Direction(intD)
-		case "weapon_direction":
+		case "weapon-direction":
 			direction := gameMap[k]
 			intD, err := strconv.Atoi(direction)
 			if err != nil {
@@ -79,15 +79,15 @@ func (u *Use) GetGame(gameId string) (*Game, error) {
 
 func (u *Use) SaveGame(gameId string, game *Game) error {
 	point := game.PlayerPoint
-	_, err := u.redisClient.HSet(fmt.Sprintf("game_%s", gameId), "player_point", mission.EncodePointToUint64(point)).Result()
+	_, err := u.redisClient.HSet(fmt.Sprintf("game_%s", gameId), "player-point", mission.EncodePointToUint64(point)).Result()
 	if err != nil {
 		return err
 	}
-	_, err = u.redisClient.HSet(fmt.Sprintf("game_%s", gameId), "player_direction", Direction_DIRECTION_UP).Result()
+	_, err = u.redisClient.HSet(fmt.Sprintf("game_%s", gameId), "player-direction", fmt.Sprintf("%d", game.PlayerDirection)).Result()
 	if err != nil {
 		return err
 	}
-	_, err = u.redisClient.HSet(fmt.Sprintf("game_%s", gameId), "weapon_direction", Direction_DIRECTION_UP).Result()
+	_, err = u.redisClient.HSet(fmt.Sprintf("game_%s", gameId), "weapon-direction", fmt.Sprintf("%d", game.WeaponDirection)).Result()
 	if err != nil {
 		return err
 	}
@@ -121,15 +121,15 @@ func (u *Use) InitGame(gameId string, m *mission.Mission) error {
 	if len(keys) > 0 {
 		point = strings.Split(keys[0], "_")[1]
 	}
-	_, err = u.redisClient.HSet(fmt.Sprintf("game_%s", gameId), "player_point", point).Result()
+	_, err = u.redisClient.HSet(fmt.Sprintf("game_%s", gameId), "player-point", point).Result()
 	if err != nil {
 		return err
 	}
-	_, err = u.redisClient.HSet(fmt.Sprintf("game_%s", gameId), "player_direction", fmt.Sprintf("%d", Direction_DIRECTION_UP)).Result()
+	_, err = u.redisClient.HSet(fmt.Sprintf("game_%s", gameId), "player-direction", fmt.Sprintf("%d", Direction_DIRECTION_UP)).Result()
 	if err != nil {
 		return err
 	}
-	_, err = u.redisClient.HSet(fmt.Sprintf("game_%s", gameId), "weapon_direction", fmt.Sprintf("%d", Direction_DIRECTION_UP)).Result()
+	_, err = u.redisClient.HSet(fmt.Sprintf("game_%s", gameId), "weapon-direction", fmt.Sprintf("%d", Direction_DIRECTION_UP)).Result()
 	if err != nil {
 		return err
 	}

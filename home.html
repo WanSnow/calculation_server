@@ -5,7 +5,6 @@
     <script type="text/javascript">
         window.onload = function () {
             var conn;
-            var msg = document.getElementById("msg");
             var log = document.getElementById("log");
 
             function getGameId()
@@ -27,22 +26,11 @@
                 }
             }
 
-            document.getElementById("form").onsubmit = function () {
-                if (!conn) {
-                    return false;
-                }
-                if (!msg.value) {
-                    return false;
-                }
-                conn.send(msg.value);
-                msg.value = "";
-                return false;
-            };
             var gameId = getGameId()
             if (gameId == false){
                 var item = document.createElement("div");
                 item.innerHTML = "<b>Game id shouldn't be null.</b>";
-                appendLog(item);
+                changeLog(item);
             } else {
                 if (window["WebSocket"]) {
 

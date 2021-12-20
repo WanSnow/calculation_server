@@ -85,6 +85,13 @@ func (u *Use) GetMission(missionId string) (*Mission, error) {
 				return nil, err
 			}
 			mission.Version = int64(version)
+		case "condition":
+			condition, err := strconv.Atoi(missionMap[k])
+			if err != nil {
+				log.Println(fmt.Sprintf("Mission: %s has invalid field: %s", missionId, k))
+				return nil, err
+			}
+			mission.Condition = WinnerCondition(condition)
 		default:
 			log.Println(fmt.Sprintf("Mission: %s has invalid field: %s", missionId, k))
 			return nil, errors.New("invalid mission field")

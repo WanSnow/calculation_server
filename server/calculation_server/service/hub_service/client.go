@@ -11,7 +11,7 @@ import (
 
 const (
 	// Time allowed to write a message to the peer.
-	writeWait = 10 * time.Second
+	writeWait = 120 * time.Second
 
 	// Time allowed to read the next pong message from the peer.
 	pongWait = 60 * time.Second
@@ -44,6 +44,10 @@ type Client struct {
 
 	// Buffered channel of outbound messages.
 	send chan []byte
+
+	end chan int
+
+	gameId string
 }
 
 // readPump pumps messages from the websocket connection to the hub.
@@ -124,14 +128,12 @@ func ServeWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	gameIdString := strings.Split(allParam, "&")[0]
 	gameId := strings.Split(gameIdString, "=")[1]
 
-	log.Println(gameId)
-
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
 		return
 	}
-	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256)}
+	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256), gameId: gameId, end: make(chan int, 1)}
 	client.hub.register <- client
 
 	// Allow collection of memory referenced by the caller by doing all work in
