@@ -20,10 +20,22 @@ func NewUse() *Use {
 	}
 }
 
+func (u *Use) GetAllMissionId() ([]string, error) {
+	var result []string
+	ids, err := u.redisClient.Keys("mission_*").Result()
+	if err != nil {
+		return nil, err
+	}
+	for _, id := range ids {
+		result = append(result, strings.Split(id, "_")[1])
+	}
+	return result, nil
+}
+
 func (u *Use) GetMission(missionId string) (*Mission, error) {
 	mission := new(Mission)
 	mission.Id = missionId
-	missionMap, err := u.redisClient.HGetAll(missionId).Result()
+	missionMap, err := u.redisClient.HGetAll(fmt.Sprintf("mission_%s", missionId)).Result()
 	if err != nil {
 		return nil, err
 	}
@@ -83,13 +95,16 @@ func (u *Use) GetMission(missionId string) (*Mission, error) {
 }
 
 func (u *Use) SetMission(mission *Mission) error {
-	u.redisClient.HSet(mission.Id, "version", mission.Version)
+	_, err := u.redisClient.HSet(fmt.Sprintf("mission_%s", mission.Id), "version", mission.Version).Result()
+	if err != nil {
+		return err
+	}
 	for _, v := range mission.Points {
 		prefix, err := GetPointPrefix(v)
 		if err != nil {
 			return err
 		}
-		_, err = u.redisClient.HSet(mission.Id, fmt.Sprintf("%s_%d", prefix, EncodePointToUint64(v)), struct{}{}).Result()
+		_, err = u.redisClient.HSet(fmt.Sprintf("mission_%s", mission.Id), fmt.Sprintf("%s_%d", prefix, EncodePointToUint64(v)), v.Type.String()).Result()
 		if err != nil {
 			return err
 		}
@@ -97,10 +112,18 @@ func (u *Use) SetMission(mission *Mission) error {
 	return nil
 }
 
-func (u *Use) GetVersion(missionId string) string {
-	return u.redisClient.HGet(missionId, "version").Val()
+func (u *Use) GetVersion(missionId string) (int64, error) {
+	version, err := u.redisClient.HGet(fmt.Sprintf("mission_%s", missionId), "version").Result()
+	if err != nil {
+		return 0, err
+	}
+	intV, err := strconv.Atoi(version)
+	if err != nil {
+		return 0, err
+	}
+	return int64(intV), nil
 }
 
 func (u *Use) CanMove(missionId string, point *Point) bool {
-	return !u.redisClient.HExists(missionId, fmt.Sprintf("block_%d", EncodePointToUint64(point))).Val()
+	return !u.redisClient.HExists(fmt.Sprintf("mission_%s", missionId), fmt.Sprintf("block_%d", EncodePointToUint64(point))).Val()
 }
