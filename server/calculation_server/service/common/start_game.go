@@ -43,7 +43,7 @@ loop:
 			}
 			cmdChan <- func_msg.Encode(command)
 		}
-		time.Sleep(time.Duration(len(commands) * 100 * int(time.Millisecond)))
+		time.Sleep(time.Duration(len(commands) * 1000 * int(time.Millisecond)))
 	}
 	close(triggerChan)
 	delete(TriggerChanMap, playerId)

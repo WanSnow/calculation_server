@@ -5,7 +5,8 @@
     <script type="text/javascript">
         window.onload = function () {
             var conn;
-            var log = document.getElementById("log");
+            var canvas = document.getElementById("canvas");
+            var ctx = canvas.getContext("2d")
 
             function getGameId()
             {
@@ -26,6 +27,31 @@
                 }
             }
 
+            function draw(item) {
+                ctx.clearRect(0,0,canvas.width,canvas.height)
+                var game = JSON.parse(item.innerText);
+                for(var i=0,l=game.points.length;i<l;i++) {
+                    var type = game.points[i].type;
+                    var x = game.points[i].x;
+                    var y = game.points[i].y;
+                    if (type == 1) {
+                        ctx.fillStyle = "black"
+                    }
+                    if (type == 3) {
+                        ctx.fillStyle = "yellow"
+                    }
+                    ctx.fillRect(x * 10, y * 10, 10, 10)
+                }
+
+                var type = game.player_point.type;
+                var x = game.player_point.x;
+                var y = game.player_point.y;
+                ctx.fillStyle = "red"
+                ctx.fillRect(x*10,y*10,10,10)
+
+                }
+
+
             var gameId = getGameId()
             if (gameId == false){
                 var item = document.createElement("div");
@@ -45,7 +71,7 @@
                         for (var i = 0; i < messages.length; i++) {
                             var item = document.createElement("div");
                             item.innerText = messages[i];
-                            changeLog(item);
+                            draw(item);
                         }
                     };
                 } else {
@@ -82,19 +108,12 @@
             overflow: auto;
         }
 
-        #form {
-            padding: 0 0.5em 0 0.5em;
-            margin: 0;
-            position: absolute;
-            bottom: 1em;
-            left: 0px;
-            width: 100%;
-            overflow: hidden;
-        }
-
     </style>
 </head>
 <body>
-<div id="log"></div>
+<div id="log">
+    <canvas id="canvas"></canvas>
+</div>
+
 </body>
 </html>
