@@ -1,11 +1,10 @@
-package calculation_service
+package common
 
 import (
 	"fmt"
 	"github.com/wansnow/calculation_server/model/game"
 	"github.com/wansnow/calculation_server/model/mission"
 	"github.com/wansnow/calculation_server/server/calculation_server/model/trigger_msg"
-	"github.com/wansnow/calculation_server/server/calculation_server/service/common"
 	"github.com/wansnow/calculation_server/server/calculation_server/service/logic_service"
 	"log"
 )
@@ -13,10 +12,10 @@ import (
 func Move(id string, param byte) {
 	gu := game.NewUse()
 	mu := mission.NewUse()
-	gameId := common.GameMap[id]
+	gameId := GameMap[id]
 	g, err := gu.GetGame(gameId)
 	if err != nil {
-		common.TriggerChanMap[id] <- &logic_service.End{}
+		TriggerChanMap[id] <- &logic_service.End{}
 		return
 	}
 	playerPoint := g.PlayerPoint
@@ -60,7 +59,7 @@ func Move(id string, param byte) {
 	err = gu.SaveGame(gameId, g)
 	if err != nil {
 		log.Println(err)
-		common.TriggerChanMap[id] <- &logic_service.End{}
+		TriggerChanMap[id] <- &logic_service.End{}
 		return
 	}
 }
@@ -72,7 +71,7 @@ func nextPlayerPoint(oldPoint *mission.Point, mu *mission.Use, condition mission
 			oldPoint.X = nextP.X
 			oldPoint.Y = nextP.Y
 		} else {
-			common.TriggerChanMap[playerId] <- common.TriggerMap[fmt.Sprintf("%s_%d", playerId, trigger_msg.CRASH)]
+			TriggerChanMap[playerId] <- TriggerMap[fmt.Sprintf("%s_%d", playerId, trigger_msg.CRASH)]
 			break
 		}
 		if condition == mission.WinnerCondition_WINNER_CONDITION_REACH_TARGET_POSITION {
@@ -81,7 +80,7 @@ func nextPlayerPoint(oldPoint *mission.Point, mu *mission.Use, condition mission
 				X:    oldPoint.X,
 				Y:    oldPoint.Y,
 			}) {
-				common.TriggerChanMap[playerId] <- &logic_service.End{}
+				TriggerChanMap[playerId] <- &logic_service.End{}
 				return true
 			}
 		}
@@ -92,17 +91,17 @@ func nextPlayerPoint(oldPoint *mission.Point, mu *mission.Use, condition mission
 func Shot(id string) {}
 
 func Turn(id string, param byte) {
-	gameId := common.GameMap[id]
+	gameId := GameMap[id]
 	gu := game.NewUse()
 	g, err := gu.GetGame(gameId)
 	if err != nil {
-		common.TriggerChanMap[id] <- &logic_service.End{}
+		TriggerChanMap[id] <- &logic_service.End{}
 		return
 	}
 	g.PlayerDirection = game.Direction(param)
 	err = gu.SaveGame(gameId, g)
 	if err != nil {
-		common.TriggerChanMap[id] <- &logic_service.End{}
+		TriggerChanMap[id] <- &logic_service.End{}
 		return
 	}
 }

@@ -79,7 +79,7 @@ func (u *Use) GetMission(missionId string) (*Mission, error) {
 			point.Type = PointType_POINT_TYPE_ENEMY
 			mission.Points = append(mission.Points, point)
 		case "version":
-			version, err := strconv.Atoi(vals[0])
+			version, err := strconv.Atoi(missionMap[k])
 			if err != nil {
 				log.Println(fmt.Sprintf("Mission: %s has invalid field: %s", missionId, k))
 				return nil, err

@@ -1,4 +1,4 @@
-package calculation_service
+package common
 
 import (
 	"github.com/nsqio/go-nsq"

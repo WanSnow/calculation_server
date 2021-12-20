@@ -113,16 +113,23 @@ func (u *Use) InitGame(gameId string, m *mission.Mission) error {
 	if err != nil {
 		return err
 	}
-	point := strings.Split(keys[0], "_")[1]
+	point := strconv.FormatUint(mission.EncodePointToUint64(&mission.Point{
+		Type: mission.PointType_POINT_TYPE_POSITION,
+		X:    1,
+		Y:    1,
+	}), 10)
+	if len(keys) > 0 {
+		point = strings.Split(keys[0], "_")[1]
+	}
 	_, err = u.redisClient.HSet(fmt.Sprintf("game_%s", gameId), "player_point", point).Result()
 	if err != nil {
 		return err
 	}
-	_, err = u.redisClient.HSet(fmt.Sprintf("game_%s", gameId), "player_direction", Direction_DIRECTION_UP).Result()
+	_, err = u.redisClient.HSet(fmt.Sprintf("game_%s", gameId), "player_direction", fmt.Sprintf("%d", Direction_DIRECTION_UP)).Result()
 	if err != nil {
 		return err
 	}
-	_, err = u.redisClient.HSet(fmt.Sprintf("game_%s", gameId), "weapon_direction", Direction_DIRECTION_UP).Result()
+	_, err = u.redisClient.HSet(fmt.Sprintf("game_%s", gameId), "weapon_direction", fmt.Sprintf("%d", Direction_DIRECTION_UP)).Result()
 	if err != nil {
 		return err
 	}
