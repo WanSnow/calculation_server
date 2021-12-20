@@ -9,14 +9,17 @@ var (
 )
 
 func EncodePointToUint64(p *Point) uint64 {
-	point := uint64(p.X) << 32
+	point := uint64(p.Type) << 60
+	point += uint64(p.X) << 30
 	point += uint64(p.Y)
 	return point
 }
 
 func DecodeUint64ToPoint(point uint64) (p *Point) {
-	p.Y = uint32(0xffffffff & point)
-	p.X = uint32(point >> 32)
+	p = new(Point)
+	p.Y = uint32(0xfffffff & point)
+	p.X = uint32(0xfffffff & point >> 30)
+	p.Type = PointType(point >> 60)
 	return
 }
 

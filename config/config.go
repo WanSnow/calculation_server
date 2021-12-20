@@ -31,7 +31,7 @@ func LoadConfig(root string) error {
 	vp := viper.New()
 	vp.SetEnvPrefix(root)
 	vp.SetConfigName("config")
-	vp.AddConfigPath(fmt.Sprintf("%sconfig/", root))
+	vp.AddConfigPath(fmt.Sprintf("%s/config/", root))
 	vp.SetConfigType("json")
 	err := vp.ReadInConfig()
 	if err != nil {

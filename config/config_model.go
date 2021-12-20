@@ -22,6 +22,8 @@ type MysqlConfig struct {
 type ServerConfig struct {
 	RunMode             string
 	HeartBeatServerPort int64
+	StartGameServerPort int64
+	AcceptServerPort    int64
 }
 
 type NsqConfig struct {

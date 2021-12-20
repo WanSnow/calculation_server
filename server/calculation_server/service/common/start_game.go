@@ -5,7 +5,6 @@ import (
 	"fmt"
 	middleware_nsq "github.com/wansnow/calculation_server/middleware/nsq"
 	"github.com/wansnow/calculation_server/server/calculation_server/model/func_msg"
-	"github.com/wansnow/calculation_server/server/calculation_server/service/calculation_service"
 	"github.com/wansnow/calculation_server/server/calculation_server/service/logic_service"
 	"log"
 	"time"
@@ -16,7 +15,7 @@ func StartGame(gameId, playerId string) {
 	triggerChan := make(chan logic_service.Trigger)
 	TriggerChanMap[playerId] = triggerChan
 	go middleware_nsq.StartNewProducer(fmt.Sprintf("topic_%s", gameId), cmdChan)
-	go middleware_nsq.StartNewConsumer(fmt.Sprintf("topic_%s", gameId), "main", &calculation_service.CalculationMessageHandler{})
+	go middleware_nsq.StartNewConsumer(fmt.Sprintf("topic_%s", gameId), "main", &CalculationMessageHandler{})
 
 loop:
 	for {
@@ -33,7 +32,7 @@ loop:
 			}
 		default:
 			var err error
-			commands, err = logic_service.ExecOnceMainLogic(MainLogicMap[playerId])
+			commands, err = logic_service.ExecOnceMainLogic(MainLogicMap[playerId], "")
 			if err != nil {
 				log.Fatalln(err)
 			}
@@ -46,4 +45,6 @@ loop:
 		}
 		time.Sleep(time.Duration(len(commands) * 100 * int(time.Millisecond)))
 	}
+	close(triggerChan)
+	delete(TriggerChanMap, playerId)
 }

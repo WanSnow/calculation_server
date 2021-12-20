@@ -14,11 +14,12 @@ message HeartBeatMes {
     message Req {
         string ip = 1;
         int64 port = 2;
-        repeated string mission_ids = 3;
+        int64 check_port = 3;
+        map<string, int64> mission_versions = 4;
     }
     message Response {
         string status = 1;
-        map<string, int64> missionVersions = 2;
+        map<string, int64> mission_versions = 2;
         repeated model.Mission missions = 3;
     }
 }

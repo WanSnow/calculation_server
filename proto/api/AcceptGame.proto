@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option go_package="github.com/wansnow/calculation_server/service/accept_game";
+
+package CompetitionPlatform.proto.api;
+
+import "proto/model/PlayerInfo.proto";
+
+service AcceptGame {
+    rpc AcceptGame(GameMsg.Request) returns (GameMsg.Response);
+}
+
+message GameMsg {
+    message Request{
+        model.PlayerInfo player_info = 1;
+        string mission_id = 2;
+    }
+
+    message Response {
+        int64 port = 1;
+        string game_id = 2;
+    }
+}
