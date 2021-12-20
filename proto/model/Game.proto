@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option go_package="github.com/wansnow/calculation_server/model/game";
+
+package CompetitionPlatform.proto.model;
+
+import "proto/model/Mission.proto";
+
+message Game {
+  string game_id = 1;
+  string mission_id = 11;
+  repeated Point points = 2;
+  WinnerCondition condition = 3;
+}

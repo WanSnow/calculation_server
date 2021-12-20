@@ -104,10 +104,14 @@ func (u *Use) SetMission(mission *Mission) error {
 		if err != nil {
 			return err
 		}
-		_, err = u.redisClient.HSet(fmt.Sprintf("mission_%s", mission.Id), fmt.Sprintf("%s_%d", prefix, EncodePointToUint64(v)), v.Type.String()).Result()
+		_, err = u.redisClient.HSet(fmt.Sprintf("mission_%s", mission.Id), fmt.Sprintf("%s_%d", prefix, EncodePointToUint64(v)), int32(v.Type)).Result()
 		if err != nil {
 			return err
 		}
+	}
+	_, err = u.redisClient.HSet(fmt.Sprintf("mission_%s", mission.Id), "condition", int32(mission.Condition)).Result()
+	if err != nil {
+		return err
 	}
 	return nil
 }
