@@ -12,7 +12,7 @@ require (
 	github.com/gorilla/websocket v1.4.2
 	github.com/nsqio/go-nsq v1.1.0
 	github.com/pkg/errors v0.9.1
-	github.com/rs/xid v1.3.0 // indirect
+	github.com/rs/xid v1.3.0
 	github.com/spf13/viper v1.9.0
 	golang.org/x/net v0.0.0-20210503060351-7fd8e65b6420 // indirect
 	golang.org/x/sys v0.0.0-20211124211545-fe61309f8881 // indirect

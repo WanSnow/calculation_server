@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-var addr = flag.String("addr", fmt.Sprintf(":%d", config.ServerC.StartGameServerPort), "http service address")
+var addr *string
 
 func serveHome(w http.ResponseWriter, r *http.Request) {
 	log.Println(r.URL)
@@ -25,6 +25,7 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 }
 
 func Run() {
+	addr = flag.String("addr", fmt.Sprintf(":%d", config.ServerC.StartGameServerPort), "http service address")
 	flag.Parse()
 	hub := hub_service.NewHub()
 	go hub.Run()

@@ -5,8 +5,11 @@ import (
 	"github.com/wansnow/calculation_server/config"
 	"github.com/wansnow/calculation_server/middleware/redis_client"
 	"github.com/wansnow/calculation_server/server/calculation_server"
+	"github.com/wansnow/calculation_server/server/game_accept_server"
+	"github.com/wansnow/calculation_server/server/game_pub_server"
 	"os"
-	"time"
+	"os/signal"
+	"syscall"
 )
 
 func main() {
@@ -24,7 +27,10 @@ func main() {
 
 	cs := calculation_server.NewCalculationServer()
 	go cs.Start()
-	for {
-		time.Sleep(1 * time.Second)
-	}
+	go game_accept_server.StartAcceptGameServer()
+	go game_pub_server.Run()
+
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+	<-sigChan
 }

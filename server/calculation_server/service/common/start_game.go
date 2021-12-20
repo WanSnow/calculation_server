@@ -47,5 +47,5 @@ loop:
 		time.Sleep(time.Duration(len(commands) * 100 * int(time.Millisecond)))
 	}
 	close(triggerChan)
-	TriggerChanMap[playerId] = nil
+	delete(TriggerChanMap, playerId)
 }

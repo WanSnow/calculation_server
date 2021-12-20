@@ -1,7 +1,9 @@
 package calculation_server
 
 import (
+	"fmt"
 	"github.com/wansnow/calculation_server/client/heart_beat_client"
+	"github.com/wansnow/calculation_server/config"
 	"google.golang.org/grpc"
 	"log"
 )
@@ -15,7 +17,7 @@ func (cs *CalculationServer) Start() {
 }
 
 func NewCalculationServer() *CalculationServer {
-	conn, err := grpc.Dial("127.0.0.1:9696", grpc.WithInsecure(), grpc.WithBlock())
+	conn, err := grpc.Dial(fmt.Sprintf("127.0.0.1:%d", config.ServerC.HeartBeatServerPort), grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
