@@ -1,14 +1,18 @@
 package nsq
 
 import (
+	"fmt"
 	"github.com/nsqio/go-nsq"
 	"github.com/wansnow/calculation_server/config"
 	"log"
+	"sync"
 )
 
-func StartNewConsumer(topic, channel string, handler nsq.Handler) {
+func StartNewConsumer(gameId, channel string, handler nsq.Handler, waitGroup *sync.WaitGroup, stop chan int) {
+	waitGroup.Add(1)
+	waitGroup.Done()
 	cfg := nsq.NewConfig()
-	consumer, err := nsq.NewConsumer(topic, channel, cfg)
+	consumer, err := nsq.NewConsumer(fmt.Sprintf("topic_%s", gameId), channel, cfg)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -19,6 +23,6 @@ func StartNewConsumer(topic, channel string, handler nsq.Handler) {
 	if err := consumer.ConnectToNSQD(config.NsqC.NsqdUrl); err != nil {
 		log.Fatal(err)
 	}
-	<-consumer.StopChan
+	<-stop
 	consumer.Stop()
 }

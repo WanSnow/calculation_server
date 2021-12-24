@@ -7,15 +7,21 @@ import (
 	"github.com/wansnow/calculation_server/server/calculation_server/model/func_msg"
 	"github.com/wansnow/calculation_server/server/calculation_server/service/logic_service"
 	"log"
+	"sync"
 	"time"
 )
 
 func StartGame(gameId, playerId string) {
 	cmdChan := make(chan []byte, 10)
 	triggerChan := make(chan logic_service.Trigger)
+	stopChan := make(chan int)
+	waitGroup := &sync.WaitGroup{}
+
 	TriggerChanMap[playerId] = triggerChan
-	go middleware_nsq.StartNewProducer(fmt.Sprintf("topic_%s", gameId), cmdChan)
-	go middleware_nsq.StartNewConsumer(fmt.Sprintf("topic_%s", gameId), "main", &CalculationMessageHandler{})
+	go middleware_nsq.StartNewProducer(fmt.Sprintf("topic_%s", gameId), cmdChan, waitGroup)
+	go middleware_nsq.StartNewConsumer(fmt.Sprintf("topic_%s", gameId), "main", &CalculationMessageHandler{}, waitGroup, stopChan)
+
+	waitGroup.Add(1)
 
 loop:
 	for {
@@ -45,7 +51,13 @@ loop:
 		}
 		time.Sleep(time.Duration(len(commands) * 1000 * int(time.Millisecond)))
 	}
+
+	stopChan <- 1
+	cmdChan <- []byte("end")
+	waitGroup.Done()
+	waitGroup.Wait()
 	close(triggerChan)
 	delete(TriggerChanMap, playerId)
+	delete(GameMap, playerId)
 	close(cmdChan)
 }
