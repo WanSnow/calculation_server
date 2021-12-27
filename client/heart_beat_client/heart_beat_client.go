@@ -41,7 +41,7 @@ func (c *HeartBeatClient) Start() {
 			log.Fatalf("could not send heart beat: %v", err)
 		}
 
-		log.Printf("res: %v", r.Missions)
+		//log.Printf("res: %v", r.Missions)
 
 		for _, m := range r.Missions {
 			err := use.SetMission(m)
@@ -49,7 +49,7 @@ func (c *HeartBeatClient) Start() {
 				log.Fatalln(err)
 			}
 		}
-		log.Printf("status: %s", r.Status)
+		//log.Printf("status: %s", r.Status)
 		time.Sleep(3 * time.Second)
 	}
 }

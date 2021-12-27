@@ -6,6 +6,8 @@
         window.onload = function () {
             var conn;
             var canvas = document.getElementById("canvas");
+            canvas.width = 1000
+            canvas.height = 1000
             var ctx = canvas.getContext("2d")
 
             function getGameId()
@@ -37,17 +39,19 @@
                     if (type == 1) {
                         ctx.fillStyle = "black"
                     }
+                    if (type == 2 || type == 4) {
+                        continue
+                    }
                     if (type == 3) {
                         ctx.fillStyle = "yellow"
                     }
-                    ctx.fillRect(x * 10, y * 10, 10, 10)
+                    ctx.fillRect(((x+1)*10)+100, ((y+1)*10)+100, 10, 10)
                 }
 
-                var type = game.player_point.type;
                 var x = game.player_point.x;
                 var y = game.player_point.y;
                 ctx.fillStyle = "red"
-                ctx.fillRect(x*10,y*10,10,10)
+                ctx.fillRect(((x+1)*10)+100, ((y+1)*10)+100, 10, 10)
 
                 }
 
@@ -97,6 +101,17 @@
         }
 
         #log {
+            background: white;
+            margin: 0;
+            padding: 0.5em 0.5em 0.5em 0.5em;
+            position: absolute;
+            top: 0.5em;
+            left: 0.5em;
+            right: 0.5em;
+            bottom: 3em;
+            overflow: auto;
+        }
+        #canvas {
             background: white;
             margin: 0;
             padding: 0.5em 0.5em 0.5em 0.5em;
