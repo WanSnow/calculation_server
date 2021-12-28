@@ -43,7 +43,7 @@ func (s *AcceptGameServer) AcceptGame(_ context.Context, req *accept_game.GameMs
 	if err != nil {
 		return nil, err
 	}
-	go common.StartGame(gameId, req.PlayerInfo.Id)
+	go common.StartGame(gameId, req.PlayerInfo.Id, req.MissionId)
 	return &accept_game.GameMsg_Response{
 		Port:   config.ServerC.StartGameServerPort,
 		GameId: gameId,
