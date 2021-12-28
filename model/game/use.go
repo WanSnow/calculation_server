@@ -141,3 +141,7 @@ func (u *Use) InitGame(gameId string, m *mission.Mission) error {
 	}
 	return nil
 }
+
+func (u *Use) GetMissionId(gameId string) (string, error) {
+	return u.redisClient.HGet(fmt.Sprintf("game_%s", gameId), "mission").Result()
+}

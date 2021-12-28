@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+option go_package="github.com/wansnow/calculation_server/service/game_result";
+
+package CompetitionPlatform.proto.api;
+
+service GameResult {
+  rpc GameResult(ResultMsg.Request) returns (ResultMsg.Response);
+}
+
+message ResultMsg {
+  message Request{
+    string player_id = 1;
+    string game_id = 2;
+    string mission_id = 3;
+    int64 time = 4;
+  }
+
+  message Response {
+    int64 status = 1;
+  }
+}

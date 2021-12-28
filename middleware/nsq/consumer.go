@@ -4,9 +4,12 @@ import (
 	"github.com/nsqio/go-nsq"
 	"github.com/wansnow/calculation_server/config"
 	"log"
+	"sync"
 )
 
-func StartNewConsumer(topic, channel string, handler nsq.Handler) {
+func StartNewConsumer(topic, channel string, handler nsq.Handler, waitGroup *sync.WaitGroup, stop chan int) {
+	waitGroup.Add(1)
+	waitGroup.Done()
 	cfg := nsq.NewConfig()
 	consumer, err := nsq.NewConsumer(topic, channel, cfg)
 	if err != nil {
@@ -19,6 +22,6 @@ func StartNewConsumer(topic, channel string, handler nsq.Handler) {
 	if err := consumer.ConnectToNSQD(config.NsqC.NsqdUrl); err != nil {
 		log.Fatal(err)
 	}
-	<-consumer.StopChan
+	<-stop
 	consumer.Stop()
 }

@@ -1,6 +1,8 @@
 package common
 
-import "github.com/wansnow/calculation_server/server/calculation_server/service/logic_service"
+import (
+	"github.com/wansnow/calculation_server/server/calculation_server/service/logic_service"
+)
 
 var (
 	// TriggerChanMap k: [playerId], v: trigger chan

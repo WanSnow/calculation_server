@@ -106,6 +106,20 @@ func Turn(id string, param byte) {
 	}
 }
 
-func TurnWeapon(id string, param byte) {}
+func TurnWeapon(id string, param byte) {
+	gameId := GameMap[id]
+	gu := game.NewUse()
+	g, err := gu.GetGame(gameId)
+	if err != nil {
+		TriggerChanMap[id] <- &logic_service.End{}
+		return
+	}
+	g.WeaponDirection = game.Direction(param)
+	err = gu.SaveGame(gameId, g)
+	if err != nil {
+		TriggerChanMap[id] <- &logic_service.End{}
+		return
+	}
+}
 
 func MoveBullet(id string) {}
