@@ -129,10 +129,10 @@ type Mission struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id        string          `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Version   int64           `protobuf:"varint,2,opt,name=version,proto3" json:"version,omitempty"`
-	Condition WinnerCondition `protobuf:"varint,11,opt,name=condition,proto3,enum=CompetitionPlatform.proto.model.WinnerCondition" json:"condition,omitempty"`
-	Points    []*Point        `protobuf:"bytes,12,rep,name=points,proto3" json:"points,omitempty"`
+	Id        string          `protobuf:"bytes,1,opt,name=id,proto3" json:"id"`
+	Version   int64           `protobuf:"varint,2,opt,name=version,proto3" json:"version"`
+	Condition WinnerCondition `protobuf:"varint,11,opt,name=condition,proto3,enum=CompetitionPlatform.proto.model.WinnerCondition" json:"condition"`
+	Points    []*Point        `protobuf:"bytes,12,rep,name=points,proto3" json:"points"`
 }
 
 func (x *Mission) Reset() {
@@ -200,9 +200,9 @@ type Point struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Type PointType `protobuf:"varint,1,opt,name=type,proto3,enum=CompetitionPlatform.proto.model.PointType" json:"type,omitempty"`
-	X    uint32    `protobuf:"varint,2,opt,name=x,proto3" json:"x,omitempty"`
-	Y    uint32    `protobuf:"varint,3,opt,name=y,proto3" json:"y,omitempty"`
+	Type PointType `protobuf:"varint,1,opt,name=type,proto3,enum=CompetitionPlatform.proto.model.PointType" json:"type"`
+	X    uint32    `protobuf:"varint,2,opt,name=x,proto3" json:"x"`
+	Y    uint32    `protobuf:"varint,3,opt,name=y,proto3" json:"y"`
 }
 
 func (x *Point) Reset() {

@@ -12,8 +12,5 @@ generate_proto: install
         --go_opt=module=github.com/wansnow/calculation_server \
         --go-grpc_out=. \
         --go-grpc_opt=module=github.com/wansnow/calculation_server \
-        $(shell find proto -name '*.proto')
-
-.PHONY: remove_tag
-remove_tag:
-	go run ./entrypoint/tool/remove_tag/main.go
+        $(shell find proto -name '*.proto') \
+    & go run ./entrypoint/tool/remove_tag/main.go
