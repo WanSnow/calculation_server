@@ -20,6 +20,7 @@ func StartGame(gameId, playerId, missionId string) {
 	triggerChan := make(chan logic_service.Trigger)
 	stopChan := make(chan int)
 	waitGroup := &sync.WaitGroup{}
+	cmdCount := 0
 
 	TriggerChanMap[playerId] = triggerChan
 	go middleware_nsq.StartNewProducer(fmt.Sprintf("topic_%s", gameId), cmdChan, waitGroup)
@@ -54,6 +55,7 @@ loop:
 			cmdChan <- func_msg.Encode(command)
 		}
 		time.Sleep(time.Duration(len(commands) * 1000 * int(time.Millisecond)))
+		cmdCount += len(commands)
 	}
 	stopChan <- 1
 	cmdChan <- []byte("end")
@@ -77,6 +79,7 @@ loop:
 		PlayerId:  playerId,
 		MissionId: missionId,
 		Time:      int64(allTime),
+		CmdCount:  int64(cmdCount),
 	})
 	if err != nil {
 		return

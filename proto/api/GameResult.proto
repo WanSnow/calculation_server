@@ -14,6 +14,7 @@ message ResultMsg {
     string game_id = 2;
     string mission_id = 3;
     int64 time = 4;
+    int64 cmd_count = 5;
   }
 
   message Response {

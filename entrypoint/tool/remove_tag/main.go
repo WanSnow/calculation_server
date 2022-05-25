@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-var fileName = "/Users/liangchen.cai/other_projects/calculation_server/model/mission/Mission.pb.go"
+var fileName = "F:\\File\\学校\\毕业设计\\calculation_server\\model\\mission\\Mission.pb.go"
 
 func main() {
 	file, err := ioutil.ReadFile(fileName)

@@ -23,7 +23,7 @@ sight={%s}
 %s`
 
 func RunFunc(playerFunc, sight string) ([]func_msg.Msg, error) {
-	pyLogic := exec.Command("python3", "-c", fmt.Sprintf(PyCmd, sight, playerFunc))
+	pyLogic := exec.Command("python", "-c", fmt.Sprintf(PyCmd, sight, playerFunc))
 	output, err := pyLogic.Output()
 	if err != nil {
 		return nil, err
