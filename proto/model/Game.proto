@@ -19,7 +19,13 @@ message Game {
   string mission_id = 11;
   repeated Point points = 2;
   WinnerCondition condition = 3;
+  repeated Bullet bullets = 4;
   Point player_point = 21;
   Direction player_direction = 22;
   Direction weapon_direction = 23;
+}
+
+message Bullet {
+    Point point = 1;
+    Direction direction = 2;
 }

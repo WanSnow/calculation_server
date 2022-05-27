@@ -69,6 +69,22 @@ func (u *Use) GetGame(gameId string) (*Game, error) {
 				return nil, err
 			}
 			game.WeaponDirection = Direction(intD)
+		case "bullet":
+			temp, err := strconv.ParseUint(vals[1], 0, 0)
+			if err != nil {
+				log.Println(fmt.Sprintf("Game: %s has invalid field: %s", gameId, k))
+				return nil, err
+			}
+			point := mission.DecodeUint64ToPoint(temp)
+			direction := gameMap[k]
+			intD, err := strconv.Atoi(direction)
+			if err != nil {
+				return nil, err
+			}
+			game.Bullets = append(game.Bullets, &Bullet{
+				Point:     point,
+				Direction: Direction(intD),
+			})
 		default:
 			log.Println(fmt.Sprintf("Game: %s has invalid field: %s", gameId, k))
 			return nil, errors.New("invalid Game field")
@@ -96,6 +112,9 @@ func (u *Use) SaveGame(gameId string, game *Game) error {
 		if err != nil {
 			return err
 		}
+	}
+	for _, v := range game.Bullets {
+		_, err = u.redisClient.HSet(fmt.Sprintf("game_%s", gameId), fmt.Sprintf("bullet_%d", mission.EncodePointToUint64(v.Point)), int64(v.Direction)).Result()
 	}
 	return nil
 }

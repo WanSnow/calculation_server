@@ -16,6 +16,7 @@ enum PointType {
     POINT_TYPE_POSITION = 2;
     POINT_TYPE_TARGET = 3;
     POINT_TYPE_ENEMY = 4;
+    POINT_TYPE_BULLET = 5;
 }
 
 message Mission {

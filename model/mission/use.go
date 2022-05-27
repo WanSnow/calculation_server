@@ -142,3 +142,7 @@ func (u *Use) CanMove(missionId string, point *Point) bool {
 func (u *Use) IsArriveTarget(missionId string, point *Point) bool {
 	return u.redisClient.HExists(fmt.Sprintf("mission_%s", missionId), fmt.Sprintf("target_%d", EncodePointToUint64(point))).Val()
 }
+
+func (u *Use) IsEnemy(missionId string, point *Point) bool {
+	return u.redisClient.HExists(fmt.Sprintf("mission_%s", missionId), fmt.Sprintf("target_%d", EncodePointToUint64(point))).Val()
+}
